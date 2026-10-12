@@ -45,17 +45,17 @@ def generate_launch_description():
     Y_arg = DeclareLaunchArgument("Y", default_value="0")
     rviz_arg = DeclareLaunchArgument("rviz", default_value="true")
 
-
+    robot_xacro = os.path.join(pkg_project, "urdf/", "kmr_iiwa.urdf.xacro")
+    assert os.path.exists(robot_xacro), "The kmr_iiwa.urdf.xacro doesnt exist in " + str(robot_xacro)
 
     # Opaque function to use the launch argument inside here
     def create_robot_description(context):
-        robot_xacro = os.path.join(pkg_project, "urdf/", "kmr_iiwa.urdf.xacro")
-        assert os.path.exists(robot_xacro), "The kmr_iiwa.urdf.xacro doesnt exist in " + str(robot_xacro)
         robot_description_config = xacro.process_file(
             robot_xacro,
             mappings={
                 "arm_name": context.launch_configurations["arm_name"],
                 "robot_name": context.launch_configurations["robot_name"],
+                "root_link": "odom",
             },
         )
         robot_desc = robot_description_config.toxml()
@@ -97,14 +97,13 @@ def generate_launch_description():
         name='kmr_iiwa_urdf_spawner',
         arguments=[
             "-name", LaunchConfiguration("robot_name"),
-            "-entity", "model",
             "-x", LaunchConfiguration('x'),
             "-y", LaunchConfiguration('y'),
             "-z", LaunchConfiguration('z'),
             "-R", LaunchConfiguration('R'),
             "-P", LaunchConfiguration('P'),
             "-Y", LaunchConfiguration('Y'),
-            "-topic", "robot_description",
+            "-string", xacro.process_file(robot_xacro, mappings={"root_link": "world"}).toxml(),
         ],
         output="screen",
         namespace=LaunchConfiguration("robot_name"),
