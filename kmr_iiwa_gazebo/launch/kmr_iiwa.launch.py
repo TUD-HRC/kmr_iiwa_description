@@ -58,9 +58,8 @@ def generate_launch_description():
                 "root_link": "odom",
             },
         )
-        robot_desc = robot_description_config.toxml()
 
-        return [SetLaunchConfiguration("robot_desc", robot_desc)]
+        return [SetLaunchConfiguration("robot_desc", robot_description_config.toxml())]
 
     create_robot_description_arg = OpaqueFunction(
         function=create_robot_description
