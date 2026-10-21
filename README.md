@@ -5,16 +5,16 @@ Repo include urdf and description for the mobile base, which I could not find av
 Use of the mobile base + arm in ROS2 jazzy is still work in progress. So far I could not find a working repo that utilize both in ROS2
 
 
-
 ## Mobile base
 
 - Meshes and urdf for the kmp200, that is, the mobile base part of the kmr_iiwa, Taken from
-https://github.com/kidpaul94/kmr-iiwa-gripkit-cr-plus-l/tree/main
+https://github.com/kidpaul94/kmr-iiwa-gripkit-cr-plus-l/tree/main, put here to have a separate repo only for mobile base
 
 - Simulated base use virtual base hardware interface and relative controller: https://github.com/torydebra/gz_virtual_base_system
 
 ## Arm description
 Geometry, kinematic, meshes, ROS2 controllers taken from what should be the official one  https://github.com/lbr-stack/lbr_fri_ros2_stack/tree/582fbb06d0b964f1a6fc49fe48c6ee132c0d8b9f/lbr_description/urdf/iiwa14
+https://github.com/lbr-stack/lbr_iiwa14_r820_description
 
 # Code
 
