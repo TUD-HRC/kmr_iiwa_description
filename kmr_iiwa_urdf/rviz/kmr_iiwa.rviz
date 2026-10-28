@@ -314,7 +314,7 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: kmr_iiwa_base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -357,25 +357,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.0058345794677734
+      Distance: 9.064651489257812
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.438616544008255
-        Y: 0.8307645916938782
-        Z: 1.2796192169189453
+        X: 0.1474607288837433
+        Y: 0.4194042682647705
+        Z: 0.18073830008506775
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.39539942145347595
+      Pitch: 0.6553992033004761
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.7241270542144775
+      Yaw: 3.079127550125122
     Saved: ~
 Window Geometry:
   Displays:
