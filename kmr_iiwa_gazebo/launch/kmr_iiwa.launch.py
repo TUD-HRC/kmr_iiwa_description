@@ -116,11 +116,11 @@ def generate_launch_description():
             "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
             PythonExpression([
                 "'/", LaunchConfiguration("robot_name"),
-                "/lidar_front_right@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'"
+                "/scan_front_right@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'"
             ]),
             PythonExpression([
                 "'/", LaunchConfiguration("robot_name"),
-                "/lidar_back_left@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'"
+                "/scan_back_left@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'"
             ]),
         ],
         output="screen",
@@ -131,12 +131,12 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
+        namespace=LaunchConfiguration("robot_name"),
         output="screen",
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
             {"robot_description": LaunchConfiguration("robot_desc")},
         ],
-        namespace=LaunchConfiguration("robot_name"),
     )
 
     spawn_active_controllers = Node(
