@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="kmr" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find kmr_iiwa_urdf)/urdf/kmp200_macro.urdf.xacro"/>
+  <xacro:include filename="$(find kmr_iiwa_urdf)/urdf/kmr_iiwa_macro.urdf.xacro"/>
   <xacro:include filename="$(find lbr_iiwa14_r820_description)/urdf/lbr_iiwa14_r820_macro.xacro" />
   <xacro:include filename="$(find lbr_ros2_control)/urdf/lbr_gazebo.xacro" />
   <xacro:include filename="$(find lbr_ros2_control)/urdf/lbr_system_interface.xacro" />
@@ -10,8 +10,6 @@
   <!-- arguments -->
   <xacro:arg name="root_link" default="world"/> <!-- Put world for the gazebo model, odom for nav2 -->
   <xacro:arg name="robot_name" default="kmr_iiwa" />
-  <xacro:arg name="base_name" default="kmp" />
-  <xacro:arg name="arm_name" default="iiwa" />
   <xacro:arg name="mode" default="gazebo" />
   <xacro:arg
       name="system_config_path"
@@ -22,15 +20,7 @@
       
   <!-- ROBOT -->
 
-  <xacro:kuka_kmp200 base_name="$(arg base_name)"/>
-
-  <xacro:lbr_iiwa14_r820
-    robot_name="$(arg robot_name)"/>
-  <joint name="$(arg base_name)_to_$(arg robot_name)_link_0" type="fixed">
-    <origin xyz="0.3633 -0.1842 0.7011" rpy="0 0 -1.5708"/>
-    <parent link="$(arg base_name)_base_link"/>
-    <child link="$(arg robot_name)_link_0"/>
-  </joint>
+  <xacro:kuka_kmr_iiwa robot_name="$(arg robot_name)"/>
 
   <!-- gaebo plugins -->
 
@@ -74,14 +64,14 @@
   </ros2_control> -->
 
   <!-- OPTION 3. virtual joints, virtual base system -->
-  <xacro:virtual_base_system root_link="$(arg root_link)" base_link="$(arg base_name)_base_link"/>
+  <xacro:virtual_base_system root_link="$(arg root_link)" base_link="$(arg robot_name)_base_link"/>
 
   <!-- Sensors -->
-  <gazebo reference="$(arg base_name)_scan_front_right_link">
+  <gazebo reference="$(arg robot_name)_scan_front_right_link">
   <sensor name="scan_front_right" type="gpu_lidar">
-      <pose relative_to='$(arg base_name)_scan_front_right_link'>0 0 0 0 0 0</pose>
+      <pose relative_to='$(arg robot_name)_scan_front_right_link'>0 0 0 0 0 0</pose>
       <topic>$(arg robot_name)/scan_front_right</topic>
-      <gz_frame_id>$(arg base_name)_scan_front_right_link</gz_frame_id>
+      <gz_frame_id>$(arg robot_name)_scan_front_right_link</gz_frame_id>
       <!-- Response time 80 ms -->
       <update_rate>12.5</update_rate>
       <always_on>1</always_on>
@@ -113,11 +103,11 @@
     </ray>
   </sensor>
   </gazebo>
-  <gazebo reference="$(arg base_name)_scan_back_left_link">
+  <gazebo reference="$(arg robot_name)_scan_back_left_link">
   <sensor name="scan_back_left" type="gpu_lidar">
-      <pose relative_to='$(arg base_name)_scan_back_left_link'>0 0 0 0 0 0</pose>
+      <pose relative_to='$(arg robot_name)_scan_back_left_link'>0 0 0 0 0 0</pose>
       <topic>$(arg robot_name)/scan_back_left</topic>
-      <gz_frame_id>$(arg base_name)_scan_back_left_link</gz_frame_id>
+      <gz_frame_id>$(arg robot_name)_scan_back_left_link</gz_frame_id>
       <!-- Response time 80 ms -->
       <update_rate>12.5</update_rate>
       <always_on>true</always_on>
