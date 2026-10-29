@@ -23,16 +23,42 @@ For use on the real robot, see https://github.com/TUD-HRC/kmr_iiwa_ros2.
 
 ## Usage
 
-```bash
-# Visualize the robot model in RViz
-ros2 launch kmr_iiwa_urdf rviz.launch.py
+### Basic
 
-# Start the Gazebo simulation
-ros2 launch kmr_iiwa_gazebo kmr_iiwa.launch.py
+- RViz only-standalone visualization
+    ```bash
+    ros2 launch kmr_iiwa_urdf rviz.launch.py
+    ```
 
-# Start Nav2 and slam_toolbox (Gazebo must be running)
-ros2 launch kmr_iiwa_nav2 nav2_launch.py
-```
+- Visualize the robot model in RViz with joint state publisher GUI for mockup
+    ```bash
+    ros2 launch kmr_iiwa_urdf rviz.launch.py jsp:=true jsp_gui:=true
+    ```
+
+- Gazebo simulation with ros2/gazebo controllers
+    ```bash
+    ros2 launch kmr_iiwa_gazebo kmr_iiwa.launch.py
+    ```
+
+### Moveit
+- Mockup (RViz only) with moveit
+    ```bash
+    ros2 launch kmr_iiwa_moveit_config demo.launch.py
+    ```
+- Gazebo + moveit
+    ```bash
+    ros2 launch kmr_iiwa_moveit_config gazebo.launch.py
+    ```
+- Moveit for real robot (after running real robot launches as instructed in kmr_iiwa_ros2)
+    ```bash
+    ros2 launch kmr_iiwa_moveit_config real.launch.py bringup:=false
+    ```
+### Nav2
+- Start Nav2 and slam_toolbox, with Gazebo running. (TODO check if works with real robot)
+    ```bash
+    ros2 launch kmr_iiwa_nav2 nav2_launch.py
+    ```
+
 
 ## Notes
 
