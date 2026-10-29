@@ -20,14 +20,6 @@ import xacro
 
 def generate_launch_description():
 
-    robot_name_arg = DeclareLaunchArgument("robot_name", default_value="kmr_iiwa")
-    use_sim_time_arg = DeclareLaunchArgument(
-        "use_sim_time", default_value="false"
-    )
-    #to not use with real robot that already send joint states
-    jsp_arg = DeclareLaunchArgument(
-        "jsp", default_value="false"
-    )
 
     # Setup project paths
     pkg_project = get_package_share_directory('kmr_iiwa_urdf')
@@ -80,12 +72,24 @@ def generate_launch_description():
         namespace=LaunchConfiguration("robot_name"),
     )
 
+    joint_state_publisher_gui = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui',
+        output='screen',
+        condition=IfCondition(LaunchConfiguration("jsp_gui")),
+        namespace=LaunchConfiguration("robot_name"),
+    )
+
     return LaunchDescription([
-        use_sim_time_arg,
-        robot_name_arg,
         create_robot_description_arg,
-        jsp_arg,
+        DeclareLaunchArgument("use_sim_time", default_value="false"),
+        DeclareLaunchArgument("robot_name", default_value="kmr_iiwa"),
+        #to not use with real robot that already send joint states
+        DeclareLaunchArgument("jsp", default_value="false"),
+        DeclareLaunchArgument("jsp_gui", default_value="false"),
         joint_state_publisher,
         robot_state_publisher,
+        joint_state_publisher_gui,
         rviz,
     ])

@@ -68,6 +68,7 @@ def generate_launch_description():
     rviz = Node(
         package="rviz2",
         executable="rviz2",
+        namespace=LaunchConfiguration("robot_name"),
         arguments=[
             "-d",
             os.path.join(pkg_kmr_iiwa_urdf, "rviz", "kmr_iiwa.rviz"),
@@ -75,6 +76,10 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("rviz")),
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
+        ],
+        remappings=[
+            ("/tf", "tf"),
+            ("/tf_static", "tf_static"),
         ],
     )
 
@@ -137,6 +142,10 @@ def generate_launch_description():
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
             {"robot_description": LaunchConfiguration("robot_desc")},
         ],
+        remappings=[
+            ("/tf", "tf"),
+            ("/tf_static", "tf_static"),
+        ],
     )
 
     spawn_active_controllers = Node(
@@ -146,7 +155,7 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "--controller-manager", "controller_manager", #just the name of the controller_manager
-            "joint_state_broadcaster", "base_velocity_controller",
+            "joint_state_broadcaster", "base_velocity_controller", "arm_controller",
         ],
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
@@ -160,7 +169,7 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "--controller-manager", "controller_manager", #just the name of the controller_manager
-            "--inactive", "joint_trajectory_controller", "forward_position_controller",
+            "--inactive", "forward_position_controller",
         ],
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},

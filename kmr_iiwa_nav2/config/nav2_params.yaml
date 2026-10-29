@@ -5,7 +5,7 @@ amcl:
     alpha3: 0.2
     alpha4: 0.2
     alpha5: 0.2
-    base_frame_id: "kmp_base_link"
+    base_frame_id: "kmr_iiwa_base_link"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -43,8 +43,8 @@ amcl:
 bt_navigator:
   ros__parameters:
     global_frame: map
-    robot_base_frame: kmp_base_link
-    odom_topic: /kmr_iiwa/odom
+    robot_base_frame: kmr_iiwa_base_link
+    odom_topic: odom
     bt_loop_duration: 10
     filter_duration: 0.3
     default_server_timeout: 20
@@ -107,7 +107,7 @@ controller_server:
     path_handler_plugins: ["PathHandler"]
     use_realtime_priority: false
     speed_limit_topic: "speed_limit"
-    odom_topic: /kmr_iiwa/odom
+    odom_topic: odom
 
     # Progress checker parameters
     progress_checker:
@@ -248,7 +248,7 @@ local_costmap:
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
-      robot_base_frame: kmp_base_link
+      robot_base_frame: kmr_iiwa_base_link
       rolling_window: true
       width: 3
       height: 3
@@ -269,13 +269,17 @@ local_costmap:
         mark_threshold: 0
         observation_sources: "scan_front_right scan_back_left"
         scan_front_right:
-          topic: /kmr_iiwa/lidar_front_right
+          #must be absolute here because the namespace 
+          #for the node is local_costmap
+          topic: /kmr_iiwa/scan_front_right
           max_obstacle_height: 2.0
           clearing: True
           marking: True
           data_type: "LaserScan"
         scan_back_left:
-          topic: /kmr_iiwa/lidar_back_left
+          #must be absolute here because the namespace 
+          #for the node is local_costmap
+          topic: /kmr_iiwa/scan_back_left
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -292,7 +296,7 @@ global_costmap:
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
-      robot_base_frame: kmp_base_link
+      robot_base_frame: kmr_iiwa_base_link
       robot_radius: 0.62515998 #1.08 0.63
       resolution: 0.05
       track_unknown_space: false
@@ -306,7 +310,9 @@ global_costmap:
         enabled: True
         observation_sources: "scan_front_right scan_back_left"
         scan_front_right:
-          topic: /kmr_iiwa/lidar_front_right
+          #must be absolute here because the namespace 
+          #for the node is global_costmap
+          topic: /kmr_iiwa/scan_front_right
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -316,7 +322,9 @@ global_costmap:
           obstacle_max_range: 2.5
           obstacle_min_range: 0.0
         scan_back_left:
-          topic: /kmr_iiwa/lidar_back_left
+          #must be absolute here because the namespace 
+          #for the node is global_costmap
+          topic: /kmr_iiwa/scan_back_left
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -444,7 +452,7 @@ behavior_server:
       teleop_command_timeout: 0.25
     local_frame: odom
     global_frame: map
-    robot_base_frame: kmp_base_link
+    robot_base_frame: kmr_iiwa_base_link
     transform_tolerance: 0.1
 
 waypoint_follower:
@@ -491,7 +499,7 @@ velocity_smoother:
     min_velocity: [-0.5, -0.5, -2.0]
     max_accel: [3.0, 3.0, 3.5]
     max_decel: [-3.0, -3.0, -3.5]
-    odom_topic: "/kmr_iiwa/odom"
+    odom_topic: odom
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
@@ -500,10 +508,10 @@ collision_monitor:
   ros__parameters:
     enabled: true
     enable_stamped_cmd_vel: true
-    base_frame_id: "kmp_base_link"
+    base_frame_id: "kmr_iiwa_base_link"
     odom_frame_id: "odom"
-    cmd_vel_in_topic: "/cmd_vel_smoothed"
-    cmd_vel_out_topic: "/kmr_iiwa/cmd_vel"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
     state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
@@ -524,19 +532,20 @@ collision_monitor:
     observation_sources: ["scan_front_right", "scan_back_left"]
     scan_front_right:
       type: "scan"  
-      topic: /kmr_iiwa/lidar_front_right
+      topic: scan_front_right
       min_height: 0.15
       max_height: 2.0
       enabled: true
     scan_back_left:
       type: "scan"
-      topic: /kmr_iiwa/lidar_back_left
+      topic: scan_back_left
       min_height: 0.15
       max_height: 2.0
       enabled: true
 
 docking_server:
   ros__parameters:
+    enable_stamped_cmd_vel: true
     controller_frequency: 50.0
     initial_perception_timeout: 5.0
     wait_charge_timeout: 5.0
@@ -544,7 +553,7 @@ docking_server:
     undock_linear_tolerance: 0.05
     undock_angular_tolerance: 0.1
     max_retries: 3
-    base_frame: "kmp_base_link"
+    base_frame: "kmr_iiwa_base_link"
     fixed_frame: "odom"
     dock_prestaging_tolerance: 0.5
     introspection_mode: "disabled"
@@ -591,7 +600,7 @@ docking_server:
 
 loopback_simulator:
   ros__parameters:
-    base_frame_id: "kmp_base_link"
+    base_frame_id: "kmr_iiwa_base_link"
     odom_frame_id: "odom"
     map_frame_id: "map"
     scan_frame_id: "base_scan" # tb4_loopback_simulator.launch.py remaps to 'rplidar_link'

@@ -1,4 +1,4 @@
-slam_toolbox:
+/**/slam_toolbox:
   ros__parameters:
 
     # Plugin params
@@ -12,8 +12,9 @@ slam_toolbox:
     # ROS Parameters
     odom_frame: odom
     map_frame: map
-    base_frame: kmp_base_link
-    scan_topic: /kmr_iiwa/lidar_front_right
+    base_frame: kmr_iiwa_base_link
+    #TODO find a way to merge front and right
+    scan_topic: scan_front_right
     use_map_saver: true
     mode: mapping #localization
 
