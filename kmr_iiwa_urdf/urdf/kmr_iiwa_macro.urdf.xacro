@@ -6,14 +6,14 @@
 
   <xacro:macro name="kuka_kmr_iiwa" params="robot_name">
 
-  <xacro:kuka_kmp200 base_name="${robot_name}"/>
+    <xacro:kuka_kmp200 base_name="${robot_name}"/>
 
-  <xacro:lbr_iiwa14_r820 robot_name="${robot_name}"/>
-  <joint name="${robot_name}_to_${robot_name}_link_0" type="fixed">
-    <origin xyz="0.3633 -0.1842 0.7011" rpy="0 0 -1.5708"/>
-    <parent link="${robot_name}_base_link"/>
-    <child link="${robot_name}_link_0"/>
-  </joint>
+    <xacro:lbr_iiwa14_r820 robot_name="${robot_name}"/>
+    <joint name="${robot_name}_to_${robot_name}_link_0" type="fixed">
+      <origin xyz="0.3633 -0.1842 0.7011" rpy="0 0 -1.5708"/>
+      <parent link="${robot_name}_base_link"/>
+      <child link="${robot_name}_link_0"/>
+    </joint>
   
   </xacro:macro>
 
