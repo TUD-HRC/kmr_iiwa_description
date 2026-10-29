@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: kmr_iiwa_urdf
+    relative_path: urdf/kmr_iiwa.urdf.xacro
+  srdf:
+    relative_path: config/kmr_iiwa.srdf
+  package_settings:
+    author_name: Davide Torielli
+    author_email: toridebraus@gmail.com
+    generated_timestamp: 1793203949
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - effort
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - effort
