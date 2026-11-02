@@ -79,7 +79,11 @@ def _launch_setup(context):
         executable="move_group",
         output="screen",
         parameters=[moveit_config.to_dict(), move_group_configuration],
-        remappings=[("joint_states", cfg["joint_states_topic"])],
+        remappings=[
+            ("joint_states", cfg["joint_states_topic"]),
+            ("/tf", "tf"),
+            ("/tf_static", "tf_static"),
+        ],
         **node_kwargs,
     )
     return [move_group]

@@ -32,7 +32,7 @@ For use on the real robot, see https://github.com/TUD-HRC/kmr_iiwa_ros2.
 
 - Visualize the robot model in RViz with joint state publisher GUI for mockup
     ```bash
-    ros2 launch kmr_iiwa_urdf rviz.launch.py jsp:=true jsp_gui:=true
+    ros2 launch kmr_iiwa_urdf rviz.launch.py jsp_gui:=true
     ```
 
 - Gazebo simulation with ros2/gazebo controllers
@@ -41,6 +41,8 @@ For use on the real robot, see https://github.com/TUD-HRC/kmr_iiwa_ros2.
     ```
 
 ### Moveit
+*More info in the [dedicated](kmr_iiwa_moveit_config/README.md) readme*
+
 - Mockup (RViz only) with moveit
     ```bash
     ros2 launch kmr_iiwa_moveit_config demo.launch.py
@@ -54,13 +56,19 @@ For use on the real robot, see https://github.com/TUD-HRC/kmr_iiwa_ros2.
     ros2 launch kmr_iiwa_moveit_config real.launch.py bringup:=false
     ```
 ### Nav2
+*More info in the [dedicated](kmr_iiwa_nav2/README.md) readme*
+
 - Start Nav2 and slam_toolbox, with Gazebo running. (TODO check if works with real robot)
     ```bash
     ros2 launch kmr_iiwa_nav2 nav2_launch.py
     ```
+- Start the wanted behavior sending the corresponded ROS action
 
 
 ## Notes
+
+Everything is (should be) namespaced, included tf, controllers etc. So for example, to list controllers:  
+```ros2 control list_controllers -c /kmr_iiwa/controller_manager```
 
 ### Mobile base description
 

@@ -42,6 +42,7 @@ def generate_launch_description():
     rviz = Node(
         package="rviz2",
         executable="rviz2",
+        namespace=LaunchConfiguration("robot_name"),
         arguments=[
             "-d",
             os.path.join(pkg_project, "rviz", "kmr_iiwa.rviz"),
@@ -49,6 +50,7 @@ def generate_launch_description():
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
         ],
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
     )
 
     robot_state_publisher = Node(
@@ -60,6 +62,7 @@ def generate_launch_description():
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
             {"robot_description": ParameterValue(LaunchConfiguration("robot_desc"), value_type=str)},
         ],
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
         namespace=LaunchConfiguration("robot_name"),
     )
 
