@@ -13,7 +13,7 @@ What this launch deliberately does *not* do:
   already provided;
 * no ``controller_manager`` - the arm is driven through the Sunrise interface by
   ``lbr_commands_node``, which is already running in the namespace and offers
-  ``/kmr_iiwa/arm_controller/follow_joint_trajectory``.
+  ``/kmr_iiwa/follow_joint_trajectory_controller/follow_joint_trajectory``.
 
 MoveIt therefore only needs the hardware-neutral URDF (as a parameter, not as a
 published topic), the controller mapping and the namespaced joint states.

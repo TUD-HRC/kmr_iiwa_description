@@ -7,7 +7,8 @@ Why the namespace matters: the Gazebo launch starts ``robot_state_publisher``
 and the controller manager inside ``/kmr_iiwa``, so TF is published on
 ``/kmr_iiwa/tf`` and joint states on ``/kmr_iiwa/joint_states``.  Running
 move_group in the same namespace makes its relative ``tf``, ``tf_static``,
-``joint_states`` and ``arm_controller/follow_joint_trajectory`` names resolve to
+``joint_states`` and ``follow_joint_trajectory_controller/follow_joint_trajectory``
+names resolve to
 the Gazebo ones without extra remappings.
 
 MoveIt must not start robot_state_publisher or the static virtual joint TF:

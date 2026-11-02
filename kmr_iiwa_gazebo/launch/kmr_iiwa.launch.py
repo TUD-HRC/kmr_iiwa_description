@@ -155,7 +155,8 @@ def generate_launch_description():
         output="screen",
         arguments=[
             "--controller-manager", "controller_manager", #just the name of the controller_manager
-            "joint_state_broadcaster", "base_velocity_controller", "arm_controller",
+            "joint_state_broadcaster", "base_velocity_controller",
+            "follow_joint_trajectory_controller",
         ],
         parameters=[
             {"use_sim_time": LaunchConfiguration("use_sim_time")},

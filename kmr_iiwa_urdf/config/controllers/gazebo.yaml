@@ -11,8 +11,8 @@
 
     # ROS 2 control controllers
     # Keep the name in sync with demo/real: MoveIt addresses the controller as
-    # `arm_controller`/`follow_joint_trajectory`.
-    arm_controller:
+    # `follow_joint_trajectory_controller`/`follow_joint_trajectory`.
+    follow_joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
 
     forward_position_controller:
@@ -24,7 +24,7 @@
       type: gz_virtual_base_velocity_controller/GazeboVirtualBaseVelocityController
 
 # ROS 2 control controllers
-/**/arm_controller:
+/**/follow_joint_trajectory_controller:
   ros__parameters:
     joints:
       - kmr_iiwa_A1
