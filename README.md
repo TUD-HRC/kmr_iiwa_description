@@ -55,6 +55,18 @@ For use on the real robot, see https://github.com/TUD-HRC/kmr_iiwa_ros2.
     ```bash
     ros2 launch kmr_iiwa_moveit_config real.launch.py bringup:=false
     ```
+
+#### Moveit Servo
+After running one of the above:
+```bash
+ros2 launch kmr_iiwa_moveit_config servo.launch.py
+```
+and publish twiststamped (with frame_id and a proper stamp) on the dedicated topic, for example:
+```bash
+ros2 launch simple_virtual_joystick simple_virtual_joystick.launch.py topic:=/kmr_iiwa/servo_node/delta_twist_cmds frame:=kmr_iiwa_link_ee
+```
+
+
 ### Nav2
 *More info in the [dedicated](kmr_iiwa_nav2/README.md) readme*
 

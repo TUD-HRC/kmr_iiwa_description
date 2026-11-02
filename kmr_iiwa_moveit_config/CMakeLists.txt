@@ -13,4 +13,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/launch")
 endif()
 
 install(DIRECTORY config DESTINATION share/${PROJECT_NAME})
+
+install(
+  PROGRAMS
+    script/set_servo_command_type.py
+    DESTINATION lib/${PROJECT_NAME}
+)
 install(FILES .setup_assistant DESTINATION share/${PROJECT_NAME})

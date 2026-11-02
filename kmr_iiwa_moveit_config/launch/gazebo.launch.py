@@ -88,10 +88,27 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("rviz")),
     )
 
+    servo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(moveit_pkg, "launch", "servo.launch.py")
+        ),
+        launch_arguments={
+            "robot_name": robot_name,
+            "namespace": robot_name,
+            "use_sim_time": use_sim_time,
+        }.items(),
+        condition=IfCondition(LaunchConfiguration("servo")),
+    )
+
     return LaunchDescription([
         DeclareLaunchArgument("robot_name", default_value="kmr_iiwa"),
         DeclareLaunchArgument("use_sim_time", default_value="true"),
         DeclareLaunchArgument("rviz", default_value="true"),
+        DeclareLaunchArgument(
+            "servo",
+            default_value="false",
+            description="Start MoveIt Servo teleoperation",
+        ),
         DeclareLaunchArgument(
             "world",
             default_value=PathJoinSubstitution([
@@ -101,4 +118,5 @@ def generate_launch_description():
         gazebo,
         move_group,
         moveit_rviz,
+        servo,
     ])
