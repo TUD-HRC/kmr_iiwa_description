@@ -1,8 +1,13 @@
 """MoveIt Servo teleoperation for the kmr_iiwa arm.
 
-Servo converts Cartesian twist commands into a stream of joint commands and
-publishes them as ``trajectory_msgs/JointTrajectory``, so a standard
-``joint_trajectory_controller`` can execute the stream without changes.
+Servo converts Cartesian twist commands into a stream of joint commands.  The
+output format is selected by ``config_file``:
+
+* ``config/servo.yaml`` (demo/Gazebo) publishes ``trajectory_msgs/JointTrajectory``
+  on the arm ``joint_trajectory_controller``;
+* ``config/servo_real.yaml`` (real robot) publishes ``std_msgs/Float64MultiArray``
+  on ``servo_joint_cmd``, which ``lbr_commands_node`` forwards to the arm as
+  ``SetJointServoPosition``.
 
 Servo is not the primary planning scene monitor: move_group keeps publishing
 the planning scene and Servo reads it for collision and singularity checks.
@@ -14,6 +19,8 @@ Topics with ``namespace:=kmr_iiwa``:
 * status  ``/kmr_iiwa/servo_node/status``            moveit_msgs/ServoStatus
 * pause   ``/kmr_iiwa/servo_node/pause_servo``       std_srvs/SetBool
 * output  ``/kmr_iiwa/follow_joint_trajectory_controller/joint_trajectory``
+          (``config/servo.yaml``) or ``/kmr_iiwa/servo_joint_cmd``
+          (``config/servo_real.yaml``)
 
 Publish a **stamped** TwistStamped yourself (frame ``odom``)::
 
@@ -72,7 +79,7 @@ def _launch_setup(context):
     # the flat YAML must be nested under that key.  Without it the node dies
     # with "parameter 'moveit_servo.move_group_name' is not initialized".
     servo_params = ParameterBuilder("kmr_iiwa_moveit_config").yaml(
-        "config/servo.yaml"
+        cfg["config_file"]
     ).to_dict()
 
     node_kwargs = {}
@@ -125,6 +132,14 @@ def generate_launch_description():
             "description_file",
             default_value=_default_description(),
             description="Hardware-neutral URDF/xacro used by Servo",
+        ),
+        DeclareLaunchArgument(
+            "config_file",
+            default_value="config/servo.yaml",
+            description=(
+                "Servo parameters, relative to this package: config/servo.yaml "
+                "(JointTrajectory) or config/servo_real.yaml (Float64MultiArray)"
+            ),
         ),
         DeclareLaunchArgument("use_sim_time", default_value="false"),
         DeclareLaunchArgument(

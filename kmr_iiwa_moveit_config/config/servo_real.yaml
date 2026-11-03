@@ -1,0 +1,58 @@
+# MoveIt Servo configuration for the LBR iiwa arm on the real KMR iiwa.
+#
+# The real arm is driven through the KMR Sunrise app: lbr_commands_node sends
+# "SetJointServoPosition <7 positions>" over TCP and the app forwards it to the
+# Sunrise SmartServo interface.  That protocol is position-only, so Servo
+# publishes std_msgs/Float64MultiArray (positions only) instead of a
+# JointTrajectory, and lbr_commands_node forwards it verbatim.
+#
+# With the node in /kmr_iiwa, the relative topic below resolves to
+#   /kmr_iiwa/servo_joint_cmd
+#
+# NOTE: Float64MultiArray carries no joint names.  The order is the joint order
+# of the SRDF group below ("arm" -> kmr_iiwa_A1..A7), which is also the order
+# expected by lbr_commands_node.
+#
+# Servo runs as a client of move_group: move_group keeps publishing the
+# planning scene and Servo reads it, so Servo must NOT be the primary planning
+# scene monitor.
+
+publish_period: 0.01            # 100 Hz; matches the KUKA SmartServo cycle
+max_expected_latency: 0.1       # delay between command and execution [s]
+move_group_name: arm            # SRDF planning group
+
+command_in_type: unitless       # joystick axes are in [-1, 1]
+scale:
+  linear: 0.15                  # [m/s] at full stick
+  rotational: 0.5               # [rad/s] at full stick
+  joint: 0.5                    # only used for joint commands
+incoming_command_timeout: 0.2   # stop streaming when the joystick goes quiet
+
+command_out_type: std_msgs/Float64MultiArray
+command_out_topic: servo_joint_cmd
+publish_joint_positions: true
+# Float64MultiArray allows positions XOR velocities, and the KMR command is
+# position-only anyway.
+publish_joint_velocities: false
+publish_joint_accelerations: false
+
+joint_topic: joint_states
+# move_group broadcasts its maintained scene on "monitored_planning_scene"
+# (PlanningSceneMonitor::MONITORED_PLANNING_SCENE_TOPIC), not "planning_scene".
+monitored_planning_scene_topic: monitored_planning_scene
+is_primary_planning_scene_monitor: false
+check_octomap_collisions: false
+
+check_collisions: true
+collision_check_rate: 10.0      # [Hz]
+self_collision_proximity_threshold: 0.01   # [m]
+scene_collision_proximity_threshold: 0.02  # [m]
+
+lower_singularity_threshold: 10.0
+hard_stop_singularity_threshold: 30.0
+leaving_singularity_threshold_multiplier: 2.0
+joint_limit_margins: [0.1]      # [rad], applied to every arm joint
+apply_twist_commands_about_ee_frame: true
+
+use_smoothing: true
+smoothing_filter_plugin_name: online_signal_smoothing::ButterworthFilterPlugin
