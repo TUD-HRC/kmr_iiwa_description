@@ -13,8 +13,9 @@
     odom_frame: odom
     map_frame: map
     base_frame: kmr_iiwa_base_link
-    #TODO find a way to merge front and right
-    scan_topic: scan_front_right
+    # scan_front_right and scan_back_left are fused by scan_2d_merger
+    # (see config/scan_merger.yaml) into a single "scan" topic.
+    scan_topic: scan_merged
     use_map_saver: true
     mode: mapping #localization
 

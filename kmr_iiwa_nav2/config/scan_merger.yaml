@@ -1,0 +1,44 @@
+# Merge the two KMR iiwa SICK scans into a single 360-ish degree scan.
+#
+# The robot has two 2D lidars mounted diagonally (front-right and back-left),
+# each covering roughly +/-114 degrees.  Slam Toolbox (and anything else that
+# wants one scan) takes a single ``scan_topic``, so fuse them here.
+#
+# Frames (identical in Gazebo and on the real KMR, both published by
+# robot_state_publisher from the URDF):
+#   kmr_iiwa_scan_front_right_link
+#   kmr_iiwa_scan_back_left_link
+# Output scan is expressed in kmr_iiwa_base_link.
+#
+# Topic names are relative, so with the node in /kmr_iiwa they resolve to
+#   in : /kmr_iiwa/scan_front_right
+#        /kmr_iiwa/scan_back_left
+#   out: /kmr_iiwa/scan_merged
+#
+# scan_policies: 0 = reliable, 1 = best effort.  Both the Gazebo bridge and
+# kmp_laserscan_node publish sensor data best effort, and a best-effort
+# subscriber also matches a reliable publisher, so 1 is the safe choice.
+
+/**/scan_2d_merger_node:
+  ros__parameters:
+    scan_topics: ["scan_front_right", "scan_back_left"]
+    scan_policies: [1, 1]
+    merged_frame_id: "kmr_iiwa_scan_front_right_link"
+    output_topic: "scan_merged"
+
+    # Lasers update at 12.5 Hz (80 ms period); allow a generous window because
+    # the two Gazebo sensors are not sampled in the same render pass.
+    sync_slop: 0.1
+    queue_size: 20
+    moving_frames: false          # scanners are rigidly mounted
+    tolerance: 0.05               # TF lookup timeout [s]
+
+    angle_min: -3.14159265
+    angle_max: 3.14159265
+    angle_increment: 0.00872665   # 0.5 deg, same as the SICK sensors
+    range_min: 0.10
+    range_max: 29.0
+    use_inf: true                 # bins with no return are +inf
+    keep_intensity: false
+    scan_time: 0.08
+    debug: false
