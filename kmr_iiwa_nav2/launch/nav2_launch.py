@@ -18,6 +18,8 @@ def generate_launch_description():
     slam_toolbox_launch = GroupAction(actions=[
         SetRemap(src='/tf', dst='tf'),
         SetRemap(src='/tf_static', dst='tf_static'),
+        SetRemap(src='/map', dst='map'),
+        SetRemap(src='/map_metadata', dst='map_metadata'),
         PushRosNamespace('kmr_iiwa'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(

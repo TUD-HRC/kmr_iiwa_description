@@ -33,7 +33,7 @@ def generate_launch_description():
     world_arg = DeclareLaunchArgument(
         "world",
         default_value=PathJoinSubstitution([
-            pkg_project, "world", "kmr_iiwa.world",
+            pkg_project, "world", "sandbox.world",
         ]),
     )
 
@@ -80,6 +80,7 @@ def generate_launch_description():
         remappings=[
             ("/tf", "tf"),
             ("/tf_static", "tf_static"),
+            ("/goal_pose", "goal_pose"),
         ],
     )
 

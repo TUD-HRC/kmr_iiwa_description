@@ -62,7 +62,7 @@ def generate_launch_description():
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
             {"robot_description": ParameterValue(LaunchConfiguration("robot_desc"), value_type=str)},
         ],
-        remappings=[("/tf", "tf"), ("/tf_static", "tf_static")],
+        remappings=[("/tf", "tf"), ("/tf_static", "tf_static"), ("/goal_pose", "goal_pose")],
         namespace=LaunchConfiguration("robot_name"),
     )
 
