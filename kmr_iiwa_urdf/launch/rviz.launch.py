@@ -20,8 +20,6 @@ import xacro
 
 def generate_launch_description():
 
-
-    # Setup project paths
     pkg_project = get_package_share_directory('kmr_iiwa_urdf')
 
     robot_xacro = os.path.join(pkg_project, "urdf/", "kmr_iiwa.urdf.xacro")

@@ -76,12 +76,18 @@ ros2 launch simple_virtual_joystick simple_virtual_joystick.launch.py topic:=/km
 ### Nav2
 *More info in the [dedicated](kmr_iiwa_nav2/README.md) readme*
 
-- Start Nav2 and slam_toolbox, with Gazebo running. (TODO check if works with real robot)
+- Run simulation, or `ros2 launch kmr_iiwa_urdf rviz.launch` for real robot
+
+- Start Nav2 and slam_toolbox:
     ```bash
-    ros2 launch kmr_iiwa_nav2 nav2_launch.py
+    ros2 launch kmr_iiwa_nav2 nav2_launch.py #use_sim_time:=true/false
     ```
+
 - Start the wanted behavior sending the corresponded ROS action
 
+#### Example assisted teleop
+- `ros2 action send_goal /kmr_iiwa/assisted_teleop nav2_msgs/action/AssistedTeleop "{time_allowance: {sec: 999, nanosec: 0}}"`
+- `ros2 launch simple_virtual_joystick simple_virtual_joystick.launch.py topic:=/kmr_iiwa/cmd_vel_teleop frame:=odom`
 
 ## Notes
 

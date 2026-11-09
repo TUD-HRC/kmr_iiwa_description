@@ -12,7 +12,11 @@ from launch.conditions import IfCondition
 
 def generate_launch_description():
 
-    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
+    # Real robot runs on wall clock.  Defaulting this to true without a
+    # /clock publisher freezes ROS time at 0, which silently stops the
+    # costmap update loop from ever publishing costmap_raw and makes
+    # Nav2's behavior_server report "Costmap is not available".
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
 
     pkg_project = get_package_share_directory('kmr_iiwa_nav2')
 
@@ -97,7 +101,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        DeclareLaunchArgument(name='use_sim_time', default_value='True', description='Flag to enable use_sim_time'),
+        DeclareLaunchArgument(name='use_sim_time', default_value='False', description='Flag to enable use_sim_time (only for simulation)'),
         DeclareLaunchArgument(name='costmap_marker', default_value='False'),
         scan_merger,
         slam_toolbox_launch,
