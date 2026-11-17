@@ -16,7 +16,9 @@ def generate_launch_description():
     # /clock publisher freezes ROS time at 0, which silently stops the
     # costmap update loop from ever publishing costmap_raw and makes
     # Nav2's behavior_server report "Costmap is not available".
-    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    
+    nav2_params_file = LaunchConfiguration('nav2_params_file')
 
     pkg_project = get_package_share_directory('kmr_iiwa_nav2')
 
@@ -82,7 +84,7 @@ def generate_launch_description():
             'use_localization': 'False',
             'use_keepout_zones': 'False',
             'use_speed_zones': 'False',
-            'params_file': os.path.join(pkg_project, 'config', 'nav2_params.yaml'),
+            'params_file': nav2_params_file,
         }.items()
     )
     
@@ -103,6 +105,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(name='use_sim_time', default_value='False', description='Flag to enable use_sim_time (only for simulation)'),
         DeclareLaunchArgument(name='costmap_marker', default_value='False'),
+        DeclareLaunchArgument(name='nav2_params_file', default_value=os.path.join(pkg_project, 'config', 'nav2_params.yaml')),
         scan_merger,
         slam_toolbox_launch,
         nav2_bringup_launch,   

@@ -44,6 +44,9 @@ def generate_launch_description():
     P_arg = DeclareLaunchArgument("P", default_value="0")
     Y_arg = DeclareLaunchArgument("Y", default_value="0")
     rviz_arg = DeclareLaunchArgument("rviz", default_value="true")
+    rviz_conf_arg = DeclareLaunchArgument("rviz_conf", default_value=PathJoinSubstitution([
+        pkg_kmr_iiwa_urdf, "rviz", "kmr_iiwa.rviz",
+    ]))
 
     robot_xacro = os.path.join(pkg_project, "urdf/", "kmr_iiwa.urdf.xacro")
     assert os.path.exists(robot_xacro), "The kmr_iiwa.urdf.xacro doesnt exist in " + str(robot_xacro)
@@ -71,7 +74,7 @@ def generate_launch_description():
         namespace=LaunchConfiguration("robot_name"),
         arguments=[
             "-d",
-            os.path.join(pkg_kmr_iiwa_urdf, "rviz", "kmr_iiwa.rviz"),
+            LaunchConfiguration("rviz_conf"),
         ],
         condition=IfCondition(LaunchConfiguration("rviz")),
         parameters=[
@@ -185,6 +188,7 @@ def generate_launch_description():
         arm_name_arg,
         world_arg,
         rviz_arg,
+        rviz_conf_arg,
         x_arg,
         y_arg,
         z_arg,
