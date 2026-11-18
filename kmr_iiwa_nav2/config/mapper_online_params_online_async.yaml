@@ -16,6 +16,10 @@
     # scan_front_right and scan_back_left are fused by scan_2d_merger
     # (see config/scan_merger.yaml) into a single "scan" topic.
     scan_topic: scan_merged
+    # Scans arrive at 10 Hz while odometry/TF may update slower; keep a small
+    # queue so the message filter can wait for the next odom transform instead
+    # of dropping every queued scan.
+    scan_queue_size: 10
     use_map_saver: true
     mode: mapping #localization
 
