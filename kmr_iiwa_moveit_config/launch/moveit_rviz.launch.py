@@ -95,7 +95,13 @@ def _launch_setup(context):
         respawn=False,
         arguments=["-d", rviz_config],
         parameters=parameters,
-        remappings=[("/tf", "tf"), ("/tf_static", "tf_static"), ("/goal_pose", "goal_pose")],
+        remappings=[
+            ("/tf", "tf"), 
+            ("/tf_static", "tf_static"), 
+            ("/clicked_point", "clicked_point"), 
+            ("/goal_pose", "goal_pose"),
+            ("/initialpose", "initialpose"),
+        ],
         **node_kwargs,
     )
     return [rviz]

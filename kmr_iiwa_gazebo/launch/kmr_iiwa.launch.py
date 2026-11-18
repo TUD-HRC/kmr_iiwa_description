@@ -81,9 +81,11 @@ def generate_launch_description():
             {"use_sim_time": LaunchConfiguration("use_sim_time")},
         ],
         remappings=[
-            ("/tf", "tf"),
-            ("/tf_static", "tf_static"),
+            ("/tf", "tf"), 
+            ("/tf_static", "tf_static"), 
+            ("/clicked_point", "clicked_point"), 
             ("/goal_pose", "goal_pose"),
+            ("/initialpose", "initialpose"),
         ],
     )
 
