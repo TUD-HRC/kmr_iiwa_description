@@ -76,7 +76,7 @@ ros2 launch simple_virtual_joystick simple_virtual_joystick.launch.py topic:=/km
 ### Nav2
 *More info in the [dedicated](kmr_iiwa_nav2/README.md) readme*
 
-- Run simulation, or `ros2 launch kmr_iiwa_urdf rviz.launch` for real robot
+- Run simulation, or `ros2 launch kmr_iiwa_urdf rviz.launch.py` for real robot
 
 - Start Nav2 and slam_toolbox:
     ```bash
